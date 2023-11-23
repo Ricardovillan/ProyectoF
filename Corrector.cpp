@@ -3,7 +3,7 @@
 	FACULTAD DE ESTUDIOS SUPERIORES -ARAGON-
 
 	Computadoras y programacion. 
-	(c) Ponga su nombre y numero de cuenta aqui.
+	(c) Ricardo Villanueva 321492414
 	
 	Quiso decir: Programa principal de la aplicacion de la distancia de Levenstein.
 	
@@ -22,12 +22,12 @@ void ordenar(char palabras[][TAMTOKEN], int iEstadisticas[], int num) {
     for (pasada = 0; pasada < num - 1; pasada++) {
         for (posicion = 0; posicion < num - 1; posicion++) {
             if (strcmp(palabras[posicion], palabras[posicion + 1]) > 0) {
-                // Realizar el intercambio para las palabras
+                //ordena las palabras
                 strcpy_s(aux, palabras[posicion]);
                 strcpy_s(palabras[posicion], palabras[posicion + 1]);
                 strcpy_s(palabras[posicion + 1], aux);
 
-                // Tambi?n realizar el intercambio para las estad?sticas
+                // pone en su lugar las estdisticas 
                 auxEstadisticas = iEstadisticas[posicion];
                 iEstadisticas[posicion] = iEstadisticas[posicion + 1];
                 iEstadisticas[posicion + 1] = auxEstadisticas;
@@ -55,7 +55,6 @@ void	Diccionario(char* szNombre, char szPalabras[][TAMTOKEN], int iEstadisticas[
 
     if (fopen_s(&fp, szNombre, "r") != 0) {
         printf("No se pudo abrir el archivo.\n");
-        // Salir con c?digo de error
     }
 
     while (fgets(valores, sizeof(valores), fp) != NULL) {
@@ -73,8 +72,7 @@ void	Diccionario(char* szNombre, char szPalabras[][TAMTOKEN], int iEstadisticas[
             else if (a > 0) {
                 pala[a] = '\0';
                 _strlwr_s(pala);
-
-                // Buscar si la palabra ya est? en el arreglo szPalabras
+                //busca si se repite 
                 int repetida = 0;
                 for (int j = 0; j < iNumElementos; j++) {
                     if (strcmp(szPalabras[j], pala) == 0) {
@@ -85,7 +83,7 @@ void	Diccionario(char* szNombre, char szPalabras[][TAMTOKEN], int iEstadisticas[
                     }
                 }
 
-                // Si no es repetida, agregarla al arreglo
+
                 if (!repetida) {
                     strcpy_s(szPalabras[iNumElementos], pala);
                     iEstadisticas[iNumElementos] = 1;
@@ -98,8 +96,6 @@ void	Diccionario(char* szNombre, char szPalabras[][TAMTOKEN], int iEstadisticas[
             }
         }
     }
-
-    int o = 0;
     ordenar(szPalabras, iEstadisticas, iNumElementos);
     fclose(fp);
 
@@ -118,22 +114,6 @@ void	Diccionario(char* szNombre, char szPalabras[][TAMTOKEN], int iEstadisticas[
     int		iPeso[],							//Peso de las palabras en la lista final
     int &	iNumLista)							//Numero de elementos en la szListaFinal
 ******************************************************************************************************************/
-void compararPalabras(char arreglo1[][50], int longitud1, char arreglo2[][50], int longitud2,char resultado[3300][TAMTOKEN]) {
-    int k = 0;
-
-    // Iterar sobre cada arreglo en arreglo1
-    for (int i = 0; i < longitud1; i++) {
-        // Iterar sobre cada palabra en el arreglo actual de arreglo1
-        for (int j = 0; j < longitud2; j++) {
-            // Comparar la palabra actual en arreglo1 con todas las palabras en arreglo2
-            if (strcmp(arreglo1[i], arreglo2[j]) == 0) {
-                // Si la palabra es igual, copiarla al resultado
-                strcpy(resultado[k], arreglo1[i]);
-                k++;
-            }
-        }
-    }
-}
 
 void	ListaCandidatas(
     char	szPalabrasSugeridas[][TAMTOKEN],	//Lista de palabras clonadas
@@ -145,13 +125,11 @@ void	ListaCandidatas(
     int		iPeso[],							//Peso de las palabras en la lista final
     int& iNumLista)							//Numero de elementos en la szListaFinal
 {
+
     
-    compararPalabras(szPalabrasSugeridas, iNumSugeridas, szPalabras, iNumElementos, szListaFinal);
 
 
 }
-
-
 /*****************************************************************************************************************
     ClonaPalabras: toma una palabra y obtiene todas las combinaciones y permutaciones requeridas por el metodo
     char *	szPalabraLeida,						// Palabra a clonar
