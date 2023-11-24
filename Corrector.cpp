@@ -1,12 +1,12 @@
 /*****************************************************************************************************************
-	UNIVERSIDAD NACIONAL AUTONOMA DE MEXICO
-	FACULTAD DE ESTUDIOS SUPERIORES -ARAGON-
+    UNIVERSIDAD NACIONAL AUTONOMA DE MEXICO
+    FACULTAD DE ESTUDIOS SUPERIORES -ARAGON-
 
-	Computadoras y programacion. 
-	(c) Ricardo Villanueva 321492414
-	
-	Quiso decir: Programa principal de la aplicacion de la distancia de Levenstein.
-	
+    Computadoras y programacion.
+    (c) Ricardo Villanueva 321492414
+
+    Quiso decir: Programa principal de la aplicacion de la distancia de Levenstein.
+
 ******************************************************************************************************************/
 
 #include "stdafx.h"
@@ -14,7 +14,24 @@
 #include "corrector.h"
 #include <stdio.h>
 #define MAXELEM 40000
-void ordenar(char palabras[][TAMTOKEN], int iEstadisticas[], int num) {
+void ordenar(char palabras[][TAMTOKEN], int num) {
+    int pasada, posicion;
+    char aux[TAMTOKEN];
+    int auxEstadisticas;
+
+    for (pasada = 0; pasada < num - 1; pasada++) {
+        for (posicion = 0; posicion < num - 1; posicion++) {
+            if (strcmp(palabras[posicion], palabras[posicion + 1]) > 0) {
+                //ordena las palabras
+                strcpy_s(aux, palabras[posicion]);
+                strcpy_s(palabras[posicion], palabras[posicion + 1]);
+                strcpy_s(palabras[posicion + 1], aux);
+
+            }
+        }
+    }
+}
+void ordenarconestadisticas(char palabras[][TAMTOKEN], int iEstadisticas[], int num) {
     int pasada, posicion;
     char aux[TAMTOKEN];
     int auxEstadisticas;
@@ -58,7 +75,7 @@ void	Diccionario(char* szNombre, char szPalabras[][TAMTOKEN], int iEstadisticas[
     }
 
     while (fgets(valores, sizeof(valores), fp) != NULL) {
-        for (int i = 0; i < (strlen(valores)); i++) {
+        for (int i = 0; i <strlen(valores); i++) {
             if (valores[i] != ' ' && valores[i] != '(' && valores[i] != ')' && valores[i] != ',' &&
                 valores[i] != ';' && valores[i] != '.' &&
                 valores[i] != '*' && valores[i] != '}' &&
@@ -96,7 +113,7 @@ void	Diccionario(char* szNombre, char szPalabras[][TAMTOKEN], int iEstadisticas[
             }
         }
     }
-    ordenar(szPalabras, iEstadisticas, iNumElementos);
+    ordenarconestadisticas(szPalabras, iEstadisticas, iNumElementos);
     fclose(fp);
 
 }
@@ -126,23 +143,8 @@ void	ListaCandidatas(
     int& iNumLista)							//Numero de elementos en la szListaFinal
 {
 
-    
-    void compararPalabras(char arreglo1[][50], int longitud1, char arreglo2[][50], int longitud2, char resultado[][50]) {
-        int k = 0;
 
-        // Iterar sobre cada arreglo en arreglo1
-        for (int i = 0; i < longitud1; i++) {
-            // Iterar sobre cada palabra en el arreglo actual de arreglo1
-            for (int j = 0; j < longitud2; j++) {
-                // Comparar la palabra actual en arreglo1 con todas las palabras en arreglo2
-                if (strcmp(arreglo1[i], arreglo2[j]) == 0) {
-                    // Si la palabra es igual, copiarla al resultado
-                    strcpy(resultado[k], arreglo1[i]);
-                    k++;
-                }
-            }
-        }
-    }
+
 
 }
 /*****************************************************************************************************************
@@ -151,20 +153,6 @@ void	ListaCandidatas(
     char	szPalabrasSugeridas[][TAMTOKEN], 	//Lista de palabras clonadas
     int &	iNumSugeridas)						//Numero de elementos en la lista
 ******************************************************************************************************************/
-void CopiaPalabrasGeneradas(
-    char szPalabrasSugeridas[][TAMTOKEN], // Lista de palabras clonadas
-    int iNumSugeridas,                    // N?mero de elementos en la lista
-    char szPalabrasCopia[][TAMTOKEN],     // Nuevo arreglo de arreglos (destino)
-    int& iNumCopia)                       // N?mero de elementos en la nueva lista (se actualizar?)
-{
-    iNumCopia = 0;
-
-    for (int i = 0; i < iNumSugeridas; ++i)
-    {
-        strcpy(szPalabrasCopia[i], szPalabrasSugeridas[i]);
-        iNumCopia++;
-    }
-}
 void copiar(char* szpalabraleida, char aux[TAMTOKEN])
 {
     int i;
@@ -175,6 +163,21 @@ void copiar(char* szpalabraleida, char aux[TAMTOKEN])
     szpalabraleida[i] = '\0';
 
 }
+void CopiaPalabrasGeneradas(
+    char szPalabrasSugeridas[][TAMTOKEN], // Lista de palabras clonadas
+    int iNumSugeridas,                    // N?mero de elementos en la lista
+    char szPalabrasCopia[][TAMTOKEN],     // Nuevo arreglo de arreglos (destino)
+    int& iNumCopia)                       // N?mero de elementos en la nueva lista (se actualizar?)
+{
+    iNumCopia = 0;
+
+    for (int i = 0; i < iNumSugeridas; ++i)
+    {
+        copiar(szPalabrasCopia[i], szPalabrasSugeridas[i]);
+        iNumCopia++;
+    }
+}
+
 
 void	ClonaPalabras(
     char* szPalabraLeida,						// Palabra a clonar
@@ -216,28 +219,29 @@ void	ClonaPalabras(
         j = 0;
     }
     //cambia de posicion las palabras
-
-
-
     for (j = 0; j < strlen(szPalabraLeida); j = j + 2)
     {
-        if ((szPalabraLeida[j + 1]) == '\0')
-        {
-            j = j - 1;
-            copiar(szPalabraLeida, aux);
-            szPalabraLeida[j] = aux[j + 1];
-            szPalabraLeida[j + 1] = aux[j];
-            strcpy_s(szPalabras[iNumSugeridas], szPalabraLeida);
-            iNumSugeridas++;
+        copiar(szPalabraLeida, aux);
+        if (longitud % 2 != 0) {
+            char temp = szPalabraLeida[0];
+            szPalabraLeida[0] = szPalabraLeida[1];
+            szPalabraLeida[1] = temp;
 
-        }
-        else
-        {
-            copiar(szPalabraLeida, aux);
-            szPalabraLeida[j] = aux[j + 1];
-            szPalabraLeida[j + 1] = aux[j];
+            temp = szPalabraLeida[longitud - 1];
+            szPalabraLeida[longitud - 1] = szPalabraLeida[longitud - 2];
+            szPalabraLeida[longitud - 2] = temp;
             strcpy_s(szPalabras[iNumSugeridas], szPalabraLeida);
             iNumSugeridas++;
+        }
+        else {
+            // Si la longitud es par, intercambiar los caracteres en pares contiguos.
+            for (int i = 0; i < longitud; i += 2) {
+                char temp = szPalabraLeida[i];
+                szPalabraLeida[i] = szPalabraLeida[i + 1];
+                szPalabraLeida[i + 1] = temp;
+                strcpy_s(szPalabras[iNumSugeridas], szPalabraLeida);
+                iNumSugeridas++;
+            }
         }
 
     }
