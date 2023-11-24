@@ -221,27 +221,24 @@ void	ClonaPalabras(
     //cambia de posicion las palabras
     for (j = 0; j < strlen(szPalabraLeida); j = j + 2)
     {
-        copiar(szPalabraLeida, aux);
-        if (longitud % 2 != 0) {
-            char temp = szPalabraLeida[0];
-            szPalabraLeida[0] = szPalabraLeida[1];
-            szPalabraLeida[1] = temp;
 
-            temp = szPalabraLeida[longitud - 1];
-            szPalabraLeida[longitud - 1] = szPalabraLeida[longitud - 2];
-            szPalabraLeida[longitud - 2] = temp;
+        if ((szPalabraLeida[j + 1]) == '\0')
+        {
+            j = j - 1;
+            copiar(szPalabraLeida, aux);
+            szPalabraLeida[j] = aux[j + 1];
+            szPalabraLeida[j + 1] = aux[j];
             strcpy_s(szPalabras[iNumSugeridas], szPalabraLeida);
             iNumSugeridas++;
+
         }
-        else {
-            // Si la longitud es par, intercambiar los caracteres en pares contiguos.
-            for (int i = 0; i < longitud; i += 2) {
-                char temp = szPalabraLeida[i];
-                szPalabraLeida[i] = szPalabraLeida[i + 1];
-                szPalabraLeida[i + 1] = temp;
-                strcpy_s(szPalabras[iNumSugeridas], szPalabraLeida);
-                iNumSugeridas++;
-            }
+        else
+        {
+            copiar(szPalabraLeida, aux);
+            szPalabraLeida[j] = aux[j + 1];
+            szPalabraLeida[j + 1] = aux[j];
+            strcpy_s(szPalabras[iNumSugeridas], szPalabraLeida);
+            iNumSugeridas++;
         }
 
     }
