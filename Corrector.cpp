@@ -17,7 +17,6 @@
 void ordenar(char palabras[][TAMTOKEN], int num) {
     int pasada, posicion;
     char aux[TAMTOKEN];
-    int auxEstadisticas;
 
     for (pasada = 0; pasada < num - 1; pasada++) {
         for (posicion = 0; posicion < num - 1; posicion++) {
@@ -192,6 +191,7 @@ void	ClonaPalabras(
     int pasadas = 0;
     char abecedario[TAMTOKEN] = "abcdefghijklmnñopqrstuvwxyzáéíóú";
     int longitud = strlen(szPalabraLeida);
+    int mas = 0;
 
     for (i = 0; i < longitud; i++)
     {
@@ -219,10 +219,10 @@ void	ClonaPalabras(
         j = 0;
     }
     //cambia de posicion las palabras
-    for (j = 0; j < strlen(szPalabraLeida); j = j + 2)
+    for (j = 0; j <strlen(szPalabraLeida); j = j + 2)
     {
 
-        if ((szPalabraLeida[j + 1]) == '\0')
+        if ((szPalabraLeida[j]) == '\0' || (szPalabraLeida[j+1]) == '\0')
         {
             j = j - 1;
             copiar(szPalabraLeida, aux);
@@ -230,6 +230,8 @@ void	ClonaPalabras(
             szPalabraLeida[j + 1] = aux[j];
             strcpy_s(szPalabras[iNumSugeridas], szPalabraLeida);
             iNumSugeridas++;
+            j++;
+            break;
 
         }
         else
@@ -239,6 +241,7 @@ void	ClonaPalabras(
             szPalabraLeida[j + 1] = aux[j];
             strcpy_s(szPalabras[iNumSugeridas], szPalabraLeida);
             iNumSugeridas++;
+            mas++;
         }
 
     }
@@ -260,7 +263,7 @@ void	ClonaPalabras(
 
     }
     //PONE UNA LETRA DEL ABECEDARIO EN UN ESPACIO MAS DE LOS QUE ESTABAN
-    for (pasadas = 0; pasadas < strlen(szPalabraLeida); pasadas++)
+    for (pasadas = 0; pasadas <strlen(szPalabraLeida); pasadas++)
     {
 
         for (j = 0; j < strlen(abecedario); j++)
@@ -291,4 +294,5 @@ void	ClonaPalabras(
 
     }
     CopiaPalabrasGeneradas(szPalabras, iNumSugeridas, szPalabrasSugeridas, iNumSugeridas);
+   
 }
