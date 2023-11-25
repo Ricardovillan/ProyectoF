@@ -199,11 +199,11 @@ void	ClonaPalabras(
     }
     aux[i] = '\0';
     //elimina una letra
-    for (pasadas = 0; pasadas < longitud; pasadas++)
+    for (pasadas = 0; pasadas <=longitud; pasadas++)
     {
 
         copiar(szPalabraLeida, aux);
-        for (i = 0; i < longitud; i++)
+        for (i = 0; i <=longitud; i++)
         {
             if (i != pasadas)
             {
@@ -213,26 +213,20 @@ void	ClonaPalabras(
 
 
         }
-        szPalabraLeida[i - 1] = '\0';
+        szPalabraLeida[i] = '\0';
         strcpy_s(szPalabras[iNumSugeridas], szPalabraLeida);
         iNumSugeridas++;
         j = 0;
     }
     //cambia de posicion las palabras
-    for (j = 0; j <strlen(szPalabraLeida); j = j + 2)
+    for (j = 0; j <=strlen(szPalabraLeida); j = j + 1)
     {
 
-        if ((szPalabraLeida[j]) == '\0' || (szPalabraLeida[j+1]) == '\0')
+        if ((szPalabraLeida[j+1]) == '\0' )
         {
-            j = j - 1;
-            copiar(szPalabraLeida, aux);
-            szPalabraLeida[j] = aux[j + 1];
-            szPalabraLeida[j + 1] = aux[j];
-            strcpy_s(szPalabras[iNumSugeridas], szPalabraLeida);
-            iNumSugeridas++;
+           
             j++;
             break;
-
         }
         else
         {
@@ -242,7 +236,7 @@ void	ClonaPalabras(
             strcpy_s(szPalabras[iNumSugeridas], szPalabraLeida);
             iNumSugeridas++;
             mas++;
-        }
+         }
 
     }
     //PONE UNA LETRA DEL ABECEARIO EN CADA UNA DE LAS LETRAS EXISTENTES
@@ -293,6 +287,7 @@ void	ClonaPalabras(
 
 
     }
+    ordenar(szPalabras, iNumSugeridas);
     CopiaPalabrasGeneradas(szPalabras, iNumSugeridas, szPalabrasSugeridas, iNumSugeridas);
    
 }
